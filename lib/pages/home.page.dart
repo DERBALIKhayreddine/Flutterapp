@@ -1,35 +1,73 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../menu/drawer.widget.dart';
+
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: MyDrawer(),
       appBar: AppBar(
         title: Text("Home Page"),
         backgroundColor: Colors.amber,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () {
-              _onLogout(context);
-            },
-          ),
-        ],
       ),
       body: Center(
-        child: Text(
-          "Welcome to Home Page",
-          style: TextStyle(fontSize: 22),
+        child: Wrap(
+          children: [
+            InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, '/meteo');
+              },
+              child: Ink.image(
+                height: 180,
+                width: 180,
+                image: AssetImage('images/meteo.png'),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, '/contact');
+              },
+              child: Ink.image(
+                height: 180,
+                width: 180,
+                image: AssetImage('images/contact.png'),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, '/pays');
+              },
+              child: Ink.image(
+                height: 180,
+                width: 180,
+                image: AssetImage('images/pays.png'),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, '/parameter');
+              },
+              child: Ink.image(
+                height: 180,
+                width: 180,
+                image: AssetImage('images/parametres.png'),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, '/gallerie');
+              },
+              child: Ink.image(
+                height: 180,
+                width: 180,
+                image: AssetImage('images/gallerie.png'),
+              ),
+            ),
+          ],
         ),
       ),
     );
-  }
-
-  Future<void> _onLogout(BuildContext context) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool("Connected", false);
-    Navigator.pushNamedAndRemoveUntil(
-        context, '/authentification', (route) => false);
   }
 }

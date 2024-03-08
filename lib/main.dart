@@ -1,3 +1,10 @@
+import 'dart:js';
+
+import 'package:firstapplication/pages/contact.page.dart';
+import 'package:firstapplication/pages/gallerie.page.dart';
+import 'package:firstapplication/pages/meteo.page.dart';
+import 'package:firstapplication/pages/parameters.page.dart';
+import 'package:firstapplication/pages/payes.page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firstapplication/pages/Inscription.page.dart';
@@ -12,7 +19,12 @@ class MyApp extends StatelessWidget {
   final routes = {
     '/inscription': (context) => InscriptionPage(),
     '/authentification': (context) => Authentification(),
-    '/home': (context) => HomePage()
+    '/home': (context) => HomePage(),
+    '/meteo': (context) => MeteoPage(),
+    '/gallerie': (context) => GalleriePage(),
+    '/payes': (context) => PayesPage(),
+    '/contact': (context) => ContactePage(),
+    '/parameter': (context) => PrameterPage()
   };
 
   @override
