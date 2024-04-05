@@ -3,6 +3,7 @@ import 'dart:js';
 import 'package:firstapplication/pages/contact.page.dart';
 import 'package:firstapplication/pages/gallerie.page.dart';
 import 'package:firstapplication/pages/meteo.page.dart';
+import 'package:firstapplication/pages/meteodetail.page.dart';
 import 'package:firstapplication/pages/parameters.page.dart';
 import 'package:firstapplication/pages/payes.page.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
     '/gallerie': (context) => GalleriePage(),
     '/payes': (context) => PayesPage(),
     '/contact': (context) => ContactePage(),
-    '/parameter': (context) => PrameterPage()
+    '/parameter': (context) => PrameterPage(),
   };
 
   @override
