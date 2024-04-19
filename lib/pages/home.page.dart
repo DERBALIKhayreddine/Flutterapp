@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../menu/drawer.widget.dart';
 
@@ -37,7 +36,7 @@ class HomePage extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                Navigator.pushNamed(context, '/pays');
+                Navigator.pushNamed(context, '/payes');
               },
               child: Ink.image(
                 height: 180,

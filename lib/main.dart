@@ -1,16 +1,13 @@
-import 'dart:js';
-
+import 'package:firstapplication/pages/Inscription.page.dart';
+import 'package:firstapplication/pages/authentification.page.dart';
 import 'package:firstapplication/pages/contact.page.dart';
 import 'package:firstapplication/pages/gallerie.page.dart';
+import 'package:firstapplication/pages/home.page.dart';
 import 'package:firstapplication/pages/meteo.page.dart';
-import 'package:firstapplication/pages/meteodetail.page.dart';
 import 'package:firstapplication/pages/parameters.page.dart';
 import 'package:firstapplication/pages/payes.page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firstapplication/pages/Inscription.page.dart';
-import 'package:firstapplication/pages/authentification.page.dart';
-import 'package:firstapplication/pages/home.page.dart';
 
 void main() {
   runApp(MyApp());
