@@ -90,10 +90,60 @@ class _ContactePageState extends State<ContactePage> {
         0,
         listContacts,
         (Contact c) {
-          // Modifier contact
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AjoutModifContactPage(
+                modifMode: true,
+                contact: c,
+              ),
+            ),
+          ).then((value) {
+            setState(() {});
+          });
         },
         (Contact c) {
-          // Supprimer contact
+          return showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text("Supprimer Contact"),
+                content: const Text(
+                    "Êtes-vous sûr de vouloir supprimer ce contact ?"),
+                actions: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      FormHelper.submitButton(
+                        "Oui",
+                        () {
+                          contactService.supprimerContact(c).then((value) {
+                            setState(() {
+                              Navigator.of(context).pop();
+                            });
+                          });
+                        },
+                        width: 100,
+                        borderRadius: 5,
+                        btnColor: Colors.green,
+                        borderColor: Colors.green,
+                      ),
+                      const SizedBox(width: 20),
+                      FormHelper.submitButton(
+                        "Non",
+                        () {
+                          Navigator.of(context).pop();
+                        },
+                        width: 100,
+                        borderRadius: 5,
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            },
+          );
         },
         headingRowColor: Colors.orangeAccent,
         isScrollable: true,

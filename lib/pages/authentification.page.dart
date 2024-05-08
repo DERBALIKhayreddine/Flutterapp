@@ -1,5 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Authentification extends StatelessWidget {
   @override
@@ -73,17 +73,25 @@ class Authentification extends StatelessWidget {
 
 Future<void> _onAuthentifier(
     BuildContext context, String login, String password) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String log = prefs.getString("login") ?? '';
-  String psw = prefs.getString("password") ?? '';
-  if (login == log && password == psw) {
-    prefs.setBool("connected", true); // Fixed typo and added semicolon
+  try {
+    UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: login,
+      password: password,
+    );
+    // User is authenticated, navigate to home page
     Navigator.pop(context);
     Navigator.pushNamed(context, '/home');
-  } else {
-    const snackBar = SnackBar(
-      content: Text('ID or password is empty'),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'user-not-found' || e.code == 'wrong-password') {
+      const snackBar = SnackBar(
+        content: Text('Identifiant ou mot de passe incorrect'),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } else {
+      print("Error: $e");
+    }
+  } catch (e) {
+    print("Error: $e");
   }
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "415645183375",
+    "project_id": "flutterclass-1380b",
+    "storage_bucket": "flutterclass-1380b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:415645183375:android:1df208260900ee0a1a6ffa",
+        "android_client_info": {
+          "package_name": "com.example.firstapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5P2aSwCcSEvEnqOnrVZC_nPrU-9dpkcc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

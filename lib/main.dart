@@ -1,16 +1,40 @@
-import 'package:firstapplication/pages/Inscription.page.dart';
+// main.dart
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firstapplication/config/global.params.dart';
+import 'package:firstapplication/firebase_options.dart';
 import 'package:firstapplication/pages/authentification.page.dart';
 import 'package:firstapplication/pages/contact.page.dart';
 import 'package:firstapplication/pages/gallerie.page.dart';
 import 'package:firstapplication/pages/home.page.dart';
+import 'package:firstapplication/pages/inscription.page.dart';
 import 'package:firstapplication/pages/meteo.page.dart';
 import 'package:firstapplication/pages/parameters.page.dart';
 import 'package:firstapplication/pages/payes.page.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+ThemeData theme = ThemeData.light();
+FirebaseDatabase fire = FirebaseDatabase.instance;
+DatabaseReference ref = fire.ref();
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  GlobalParams.themeActuel.setMode(await _onGetMode());
   runApp(MyApp());
+}
+
+
+
+Future<String> _onGetMode() async {
+  final snapshot = await ref.child('mode').get();
+  if (snapshot.exists) {
+    return snapshot.value.toString(); // Return the value
+  } else {
+    return "Day"; // Default mode
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -22,41 +46,24 @@ class MyApp extends StatelessWidget {
     '/gallerie': (context) => GalleriePage(),
     '/payes': (context) => PayesPage(),
     '/contact': (context) => ContactePage(),
-    '/parameter': (context) => PrameterPage(),
+    '/parameter': (context) => ParameterPage(),
   };
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: GlobalParams.themeActuel.getTheme(),
       routes: routes,
       debugShowCheckedModeBanner: false,
-      home: FutureBuilder<SharedPreferences>(
-        future: SharedPreferences.getInstance(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            // While data is loading
-            return Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          } else if (snapshot.hasError) {
-            // If an error occurs
-            return Scaffold(
-              body: Center(
-                child: Text('Error: ${snapshot.error}'),
-              ),
-            );
+      home: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: ((context, snapshot) {
+          if (snapshot.hasData) {
+            return HomePage();
           } else {
-            // Data loaded successfully
-            bool conn = snapshot.data?.getBool('connected') ?? false;
-            if (conn) {
-              return HomePage();
-            } else {
-              return Authentification();
-            }
+            return InscriptionPage();
           }
-        },
+        }),
       ),
     );
   }

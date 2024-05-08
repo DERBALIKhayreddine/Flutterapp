@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -69,20 +70,20 @@ class InscriptionPage extends StatelessWidget {
 
   // Moved _onInscrire method inside the InscriptionPage class
   Future<void> _onInscrire(BuildContext context) async {
-    prefs = await SharedPreferences.getInstance();
-    // Changed .empty to .isEmpty for checking text emptiness
-    if (text_login.text.isNotEmpty && text_mdp.text.isNotEmpty) {
-      // Changed text_password to text_mdp to match the controller name
-      prefs.setString("login", text_login.text);
-      prefs.setString("password", text_mdp.text);
-      Navigator.pop(context);
-      Navigator.pushNamed(context, '/home');
-    } else {
-      // Changed Snackbar to SnackBar
-      const snackBar = SnackBar(
-        content: Text('ID or password is empty'),
+    try {
+      final credential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: text_login.text,
+        password: text_mdp.text,
       );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+    } catch (e) {
+      print(e);
     }
   }
 }
